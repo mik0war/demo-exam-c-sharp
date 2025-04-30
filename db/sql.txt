@@ -1,0 +1,75 @@
+
+CREATE TABLE IF NOT EXISTS public.material_type
+(
+    material_type character varying(50) COLLATE pg_catalog."default",
+    lose_percent numeric(3, 2),
+    id serial NOT NULL,
+    CONSTRAINT material_type_pkey PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS public.partner_products
+(
+    id serial NOT NULL,
+    partner integer,
+    product integer,
+    product_count integer,
+    sale_date date,
+    CONSTRAINT partner_products_pkey PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS public.partners
+(
+    partner_type character varying(10) COLLATE pg_catalog."default",
+    name character varying(250) COLLATE pg_catalog."default",
+    director_name character varying(50) COLLATE pg_catalog."default",
+    director_last_name character varying(50) COLLATE pg_catalog."default",
+    director_surname character varying(50) COLLATE pg_catalog."default",
+    e_mail character varying(100) COLLATE pg_catalog."default",
+    phone character varying(50) COLLATE pg_catalog."default",
+    address character varying(250) COLLATE pg_catalog."default",
+    inn bigint,
+    rating integer,
+    id serial NOT NULL,
+    CONSTRAINT partners_pkey PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS public.product_type
+(
+    product_type character varying(50) COLLATE pg_catalog."default",
+    coefficient numeric(4, 2),
+    id serial NOT NULL,
+    CONSTRAINT product_type_pkey PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS public.products
+(
+    product_type integer,
+    product_name character varying(250) COLLATE pg_catalog."default",
+    artukul bigint,
+    min_cost numeric(7, 2),
+    id serial NOT NULL,
+    CONSTRAINT products_pkey PRIMARY KEY (id)
+);
+
+ALTER TABLE IF EXISTS public.partner_products
+    ADD CONSTRAINT partner_products_partner_fkey FOREIGN KEY (partner)
+    REFERENCES public.partners (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION;
+
+
+ALTER TABLE IF EXISTS public.partner_products
+    ADD CONSTRAINT partner_products_product_fkey FOREIGN KEY (product)
+    REFERENCES public.products (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION;
+
+
+ALTER TABLE IF EXISTS public.products
+    ADD CONSTRAINT products_product_type_fkey FOREIGN KEY (product_type)
+    REFERENCES public.product_type (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION;
+
+
+ \copy public.material_type (material_type, lose_percent, id) FROM 'C:/Users/mik0war/DOWNLO~1/0902~2.07-/E8A3~1/MATERI~1.CSV' DELIMITER ';' CSV HEADER ENCODING 'UTF8' QUOTE '\"' ESCAPE '''';"

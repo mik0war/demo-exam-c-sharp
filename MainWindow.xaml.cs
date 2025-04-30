@@ -56,7 +56,7 @@ namespace demo_exam
 
                 if (editWindow.ShowDialog() == true)
                 {
-                    _repository.UpdatePartner(editWindow.NewPartner);
+                    _repository.UpdatePartner(editWindow.NewPartner, selectedPartner);
                     LoadPartners();
                 }
             }

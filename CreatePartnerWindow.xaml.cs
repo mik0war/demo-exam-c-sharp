@@ -5,7 +5,6 @@ namespace demo_exam
     public partial class CreatePartnerWindow : Window
     {
         public Partner NewPartner { get; private set; }
-        private readonly int _editingId = 0;
 
         public CreatePartnerWindow(List<string> partnerTypes)
         {
@@ -31,8 +30,6 @@ namespace demo_exam
 
             TypeComboBox.ItemsSource = partnerTypes;
             TypeComboBox.SelectedItem = partner.Type;
-
-            _editingId = partner.Id;
         }
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
@@ -40,33 +37,33 @@ namespace demo_exam
             // Валидация обязательных полей
             if (string.IsNullOrWhiteSpace(NameTextBox.Text))
             {
-                MessageBox.Show("Наименование партнёра обязательно для заполнения");
+                MessageBox.Show("Наименование партнёра обязательно для заполнения", "Незаполненные данные", MessageBoxButton.OK, MessageBoxImage.Error);
+
                 return;
             }
 
             if (TypeComboBox.SelectedItem == null)
             {
-                MessageBox.Show("Необходимо выбрать тип партнёра");
+                MessageBox.Show("Необходимо выбрать тип партнёра", "Незаполненные данные",MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(LastNameTextBox.Text) ||
                 string.IsNullOrWhiteSpace(FirstNameTextBox.Text))
             {
-                MessageBox.Show("ФИО директора обязательно для заполнения");
+                MessageBox.Show("ФИО директора обязательно для заполнения", "Незаполненные данные", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(PhoneTextBox.Text))
             {
-                MessageBox.Show("Телефон обязателен для заполнения");
+                MessageBox.Show("Телефон обязателен для заполнения", "Незаполненные данные", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
             // Создание нового партнёра
             NewPartner = new Partner
             {
-                Id = _editingId,
                 Name = NameTextBox.Text,
                 Type = TypeComboBox.SelectedItem.ToString(),
                 DirectorLastName = LastNameTextBox.Text,

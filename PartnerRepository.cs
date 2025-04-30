@@ -26,14 +26,11 @@
                 .ToList();
         }
 
-        public void UpdatePartner(Partner partner)
+        public void UpdatePartner(Partner partner, Partner oldPartner)
         {
-            var existing = _context.Partners.Find(partner.Id);
-            if (existing != null)
-            {
-                _context.Entry(existing).CurrentValues.SetValues(partner);
-                _context.SaveChanges();
-            }
+            partner.Id = oldPartner.Id;
+            _context.Entry(oldPartner).CurrentValues.SetValues(partner);
+            _context.SaveChanges();
         }
 
         public void CreatePartner(Partner partner)
